@@ -42,8 +42,8 @@
         x: 2.0,
         y: 4.0,
         z: 6.0,
-
-        lookAt: new THREE.Vector3(0.0, 1.0, 0.0)
+        // 原点座標を向かせるパラメーター？
+        lookAt: new THREE.Vector3(0.0, 0.0, 0.0)
     };
 
     const RENDERER_PARAM = {
@@ -53,7 +53,8 @@
     };
 
     const MATERIAL_PARAM  = {
-        color: 0xff7777
+        color: 0xff7777,
+        specular: 0xffffff
     };
 
     const DIRECTIONAL_LIGHT_PARAM = {
@@ -95,7 +96,11 @@
 
         // ジオメトリとマテリアル初期化
         geometry = new THREE.BoxGeometry(1.0, 1.0, 1.0);
-        material = new THREE.MeshLambertMaterial(MATERIAL_PARAM);
+        material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
+
+        // メッシュ初期化
+        box = new THREE.Mesh(geometry, material);
+        scene.add(box);
 
         // ライトオブジェクトを作成（平行光線）
         directionalLight = new THREE.DirectionalLight(
@@ -113,10 +118,6 @@
             AMBIENT_LIGHT.intensity
         );
         scene.add(ambientLight);
-
-        // メッシュ初期化
-        box = new THREE.Mesh(geometry, material);
-        scene.add(box);
 
         // コントロールを初期化
         controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -138,9 +139,9 @@
 
         // スペースキー押下中、ボックスを回転
         if (isActive === true) {
-            box.rotation.x -= 0.05;
-            // box.rotation.y += 0.05;
-            box.rotation.z += 0.05;
+            // box.rotation.x -= 0.05;
+            box.rotation.y += 0.05;
+            // box.rotation.z += 0.05;
         }
 
         renderer.render(scene, camera);
