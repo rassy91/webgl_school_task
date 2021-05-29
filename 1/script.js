@@ -16,18 +16,13 @@
     let run = true;
 
     // three.js用変数
-    // シーン
-    // カメラ
-    // レンダラ
-    // ジオメトリ（骨格など）
-    // マテリアル（質感や色）
-    // ボックスメッシュ（ジオメトリ＋マテリアル？）
     let scene;
     let camera;
     let renderer;
     let geometry;
     let material;
     let box;
+    let controls;
 
     // 各オブジェクト用パラメーター
     // カメラ
@@ -88,6 +83,9 @@
         // メッシュ初期化
         box = new THREE.Mesh(geometry, material);
 
+        // コントロールを初期化
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+
         scene.add(box);
     }
 
@@ -95,9 +93,11 @@
     function render() {
 
         if (run === true) {
-            console.log(Date.now());
             requestAnimationFrame(render)
         }
+
+        // コントロールを追加
+        controls.update();
 
         renderer.render(scene, camera);
     }
