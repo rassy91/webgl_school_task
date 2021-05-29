@@ -25,6 +25,7 @@
     let box;
     let controls;
     let axesHelper; // 軸ヘルパーメッシュ
+    let directionalLight; // 平行光源
 
     // 各オブジェクト用パラメーター
     // カメラ
@@ -54,6 +55,14 @@
         color: 0xff7777
     };
 
+    const DIRECTIONAL_LIGHT_PARAM = {
+        color: 0xffffff,
+        intensity: 0.8,     // 光の強さ
+        x: -0.5,             // 光の向き
+        y: 0.5,
+        z: 1.0,
+    };
+
     // 初期化
     function init() {
 
@@ -80,7 +89,17 @@
 
         // ジオメトリとマテリアル初期化
         geometry = new THREE.BoxGeometry(1.0, 1.0, 1.0);
-        material = new THREE.MeshBasicMaterial(MATERIAL_PARAM);
+        material = new THREE.MeshLambertMaterial(MATERIAL_PARAM);
+
+        // ライトオブジェクトを作成
+        directionalLight = new THREE.DirectionalLight(
+            DIRECTIONAL_LIGHT_PARAM.color,
+            DIRECTIONAL_LIGHT_PARAM.intensity
+        );
+        directionalLight.position.x = DIRECTIONAL_LIGHT_PARAM.x;
+        directionalLight.position.y = DIRECTIONAL_LIGHT_PARAM.y;
+        directionalLight.position.z = DIRECTIONAL_LIGHT_PARAM.z;
+        scene.add(directionalLight);
 
         // メッシュ初期化
         box = new THREE.Mesh(geometry, material);
