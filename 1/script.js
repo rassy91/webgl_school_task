@@ -16,13 +16,20 @@
     let run = true;
     let isActive = false;
 
+    let dir = 1;
+    let dir2 = 1;
+
     // three.js用変数
     let scene;
     let camera;
     let renderer;
     let geometry;
     let material;
-    let box;
+    let box;                // ボックスメッシュ
+    let sphere;             // スフェアメッシュ（球）
+    let cone;               // コーンメッシュ
+    let torus;              // トーラスメッシュ（ドーナツ）
+    let plane;              // プレーンメッシュ（平面）
     let controls;
     let axesHelper;         // 軸ヘルパーメッシュ
     let directionalLight;   // 平行光源
@@ -34,10 +41,10 @@
     // マテリアル
     const CAMERA_PARAM = {
         // 表示領域（高さ）の角度
-        fovy: 40,
+        fovy: 60,
         aspect: window.innerWidth / window.innerHeight,
         near: 0.1,
-        far: 15,
+        far: 30,
         // カメラの位置
         x: 2.0,
         y: 4.0,
@@ -94,13 +101,43 @@
         camera.position.set(CAMERA_PARAM.x, CAMERA_PARAM.y, CAMERA_PARAM.z);
         camera.lookAt(CAMERA_PARAM.lookAt);
 
-        // ジオメトリとマテリアル初期化
-        geometry = new THREE.BoxGeometry(1.0, 1.0, 1.0);
+        // マテリアル初期化
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
-        // メッシュ初期化
+        // ボックスジオメトリ生成
+        geometry = new THREE.BoxGeometry(1.0, 1.0, 1.0);
         box = new THREE.Mesh(geometry, material);
+        box.position.x = 1;
+        box.position.y = 1;
         scene.add(box);
+
+        // スフェアジオメトリ生成
+        geometry = new THREE.SphereGeometry(0.8, 20.0, 20.0);
+        sphere = new THREE.Mesh(geometry, material);
+        sphere.position.x = -1;
+        sphere.position.y = -1;
+        sphere.position.z = 1;
+        scene.add(sphere);
+
+        // コーンジオメトリ生成
+        geometry = new THREE.ConeGeometry(0.8, 2.0, 32.0);
+        cone = new THREE.Mesh(geometry, material);
+        cone.position.x = -2;
+        cone.position.z = -2;
+        scene.add(cone);
+
+        // トーラスジオメトリを生成
+        geometry = new THREE.TorusGeometry(0.5, 0.2, 12, 12);
+        torus = new THREE.Mesh(geometry, material);
+        torus.position.x = 1;
+        torus.position.y = 3;
+        scene.add(torus);
+
+        // プレーンジオメトリを生成
+        geometry = new THREE.PlaneGeometry(4, 4);
+        plane = new THREE.Mesh(geometry, material);
+        plane.position.z = 4;
+        scene.add(plane);
 
         // ライトオブジェクトを作成（平行光線）
         directionalLight = new THREE.DirectionalLight(
@@ -142,6 +179,26 @@
             // box.rotation.x -= 0.05;
             box.rotation.y += 0.05;
             // box.rotation.z += 0.05;
+
+            sphere.rotation.x += 0.5;
+            if (sphere.position.x >= 3) {
+                dir = -1;
+            } else if (sphere.position.x <= -3) {
+                dir = 1;
+            }
+            sphere.position.x += 0.05 * dir;
+
+            if (cone.scale.y >= 1.5) {
+                dir2 = -1;
+            }  else if (cone.scale.y <= 0.5) {
+                dir2 = 1;
+            }
+            cone.scale.y += 0.02 * dir2;
+
+            torus.rotation.x += 0.05;
+            // torus.rotation.y += 0.05;
+
+            plane.position.z -= 0.01;
         }
 
         renderer.render(scene, camera);
