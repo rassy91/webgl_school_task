@@ -23,6 +23,7 @@
     let material;
     let box;
     let controls;
+    let axesHelper; // 軸ヘルパーメッシュ
 
     // 各オブジェクト用パラメーター
     // カメラ
@@ -49,7 +50,7 @@
     };
 
     const MATERIAL_PARAM  = {
-        color: 0xff3333
+        color: 0xff7777
     };
 
     // 初期化
@@ -82,11 +83,14 @@
 
         // メッシュ初期化
         box = new THREE.Mesh(geometry, material);
+        scene.add(box);
 
         // コントロールを初期化
         controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-        scene.add(box);
+        // ヘルパー軸を追加
+        axesHelper = new THREE.AxesHelper(5.0);
+        scene.add(axesHelper);
     }
 
     // 描画
