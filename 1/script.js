@@ -4,7 +4,7 @@
 
         init();
 
-        setEscapeEvent();
+        setEvents();
 
         run = true;
         render();
@@ -14,6 +14,7 @@
     let wrapper;
 
     let run = true;
+    let isActive = false;
 
     // three.js用変数
     let scene;
@@ -103,14 +104,37 @@
         // コントロールを追加
         controls.update();
 
+        // スペースキー押下中、ボックスを回転
+        if (isActive === true) {
+            box.rotation.x -= 0.05;
+            // box.rotation.y += 0.05;
+            box.rotation.z += 0.05;
+        }
+
         renderer.render(scene, camera);
     }
 
     // キー押下でフラグ変更
-    function setEscapeEvent() {
+    function setEvents() {
         document.addEventListener('keydown', (e) => {
-            run = e.code!== 'Escape';
-            console.log(run);
+
+            switch (e.code) {
+                case 'Escape':
+                    run = false;
+                    break;
+                case 'Space':
+                    isActive = true;
+                    break;
+                default:
+                    // デフォルトなし
+            }
+
+        });
+
+        document.addEventListener('keyup', (e) => {
+
+            isActive = false;
+
         });
     }
 
