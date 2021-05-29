@@ -4,11 +4,16 @@
 
         init();
 
+        setEscapeEvent();
+
+        run = true;
         render();
 
     });
 
     let wrapper;
+
+    let run = true;
 
     // three.js用変数
     // シーン
@@ -88,7 +93,21 @@
 
     // 描画
     function render() {
+
+        if (run === true) {
+            console.log(Date.now());
+            requestAnimationFrame(render)
+        }
+
         renderer.render(scene, camera);
+    }
+
+    // キー押下でフラグ変更
+    function setEscapeEvent() {
+        document.addEventListener('keydown', (e) => {
+            run = e.code!== 'Escape';
+            console.log(run);
+        });
     }
 
 })();
