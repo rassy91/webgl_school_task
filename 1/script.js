@@ -23,6 +23,7 @@
     let geometry;
     let material;
     let box;
+    let axesHelper;
 
     // パラメーター
     const CAMERA_PARAM = {
@@ -65,6 +66,9 @@
 
         box = new THREE.Mesh(geometry, material);
         scene.add(box);
+
+        axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
 
     }
 
