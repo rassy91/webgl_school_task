@@ -24,6 +24,7 @@
     let material;
     let box;
     let axesHelper;
+    let controls;
 
     // パラメーター
     const CAMERA_PARAM = {
@@ -42,7 +43,7 @@
         height: window.innerHeight  // 描写領域
     };
     const MATERIAL_PARAM = {
-        color: 0x44ff44
+        color: 0xeeff00
     };
 
     /**
@@ -70,6 +71,8 @@
         axesHelper = new THREE.AxesHelper(5);
         scene.add(axesHelper);
 
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+
     }
 
     /**
@@ -82,6 +85,8 @@
         }
 
         requestAnimationFrame(render);
+
+        controls.update();
 
         renderer.render(scene, camera);
 
