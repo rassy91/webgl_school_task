@@ -128,6 +128,9 @@
 
     }
 
+    /**
+     * イベント登録
+     */
     function setEvent() {
 
         document.addEventListener('keydown', (e) => {
