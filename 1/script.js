@@ -46,7 +46,8 @@
         height: window.innerHeight  // 描写領域
     };
     const MATERIAL_PARAM = {
-        color: 0xeeff00
+        color: 0xeeff00,        // マテリアル自体の色
+        specular: 0x00ff00      // 反射光の色
     };
     const DIRECTIONAL_LIGHT_PARAM = {
         color: 0xffffff,
@@ -56,7 +57,7 @@
         z: 1.0
     };
     const AMBIENT_LIGHT_PARAM = {
-        color: 0xffffff,
+        color: 0xff0000,
         intensity: 0.2
     };
 
@@ -77,7 +78,7 @@
         camera.lookAt(CAMERA_PARAM.lookAt);
 
         geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5); // 骨格（サイズ）
-        material = new THREE.MeshLambertMaterial(MATERIAL_PARAM);
+        material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
         box = new THREE.Mesh(geometry, material);
         scene.add(box);
