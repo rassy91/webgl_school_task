@@ -15,6 +15,7 @@
 
     // flags
     let run = true;
+    let isActive = false;
 
     // three.js 用の変数
     let scene;
@@ -118,6 +119,10 @@
 
         controls.update();
 
+        if (isActive) {
+            box.rotation.y += 0.05;
+        }
+
         renderer.render(scene, camera);
 
     }
@@ -134,6 +139,10 @@
                 isActive = true;
             }
 
+        });
+
+        document.addEventListener('keyup', (e) => {
+            isActive = false;
         });
 
     }
