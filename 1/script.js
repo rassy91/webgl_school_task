@@ -25,6 +25,8 @@
     let box;
     let axesHelper;
     let controls;
+    let directionalLight;
+    let ambientLight;
 
     // パラメーター
     const CAMERA_PARAM = {
@@ -32,7 +34,7 @@
         aspect: window.innerWidth / window.innerHeight,
         near: 0.1,
         far: 15.0,
-        x: 1.0,
+        x: 0.2,
         y: 1.0,
         z: 1.0,
         lookAt: new THREE.Vector3(0.0, 0.0, 0.0) // 注視点（この場合、原点方向を見つめる）
@@ -44,6 +46,17 @@
     };
     const MATERIAL_PARAM = {
         color: 0xeeff00
+    };
+    const DIRECTIONAL_LIGHT_PARAM = {
+        color: 0xffffff,
+        intensity: 1.0,
+        x: 1.0,
+        y: 1.0,
+        z: 1.0
+    };
+    const AMBIENT_LIGHT_PARAM = {
+        color: 0xffffff,
+        intensity: 0.2
     };
 
     /**
@@ -63,10 +76,27 @@
         camera.lookAt(CAMERA_PARAM.lookAt);
 
         geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5); // 骨格（サイズ）
-        material = new THREE.MeshBasicMaterial(MATERIAL_PARAM);
+        material = new THREE.MeshLambertMaterial(MATERIAL_PARAM);
 
         box = new THREE.Mesh(geometry, material);
         scene.add(box);
+
+        directionalLight = new THREE.DirectionalLight(
+            DIRECTIONAL_LIGHT_PARAM.color,
+            DIRECTIONAL_LIGHT_PARAM.intensity,
+        );
+        directionalLight.position.set(
+            DIRECTIONAL_LIGHT_PARAM.x,
+            DIRECTIONAL_LIGHT_PARAM.y,
+            DIRECTIONAL_LIGHT_PARAM.z,
+        );
+        scene.add(directionalLight);
+
+        ambientLight = new THREE.AmbientLight(
+            AMBIENT_LIGHT_PARAM.color,
+            AMBIENT_LIGHT_PARAM.intensity
+        );
+        scene.add(ambientLight);
 
         axesHelper = new THREE.AxesHelper(5);
         scene.add(axesHelper);
@@ -98,6 +128,10 @@
 
             if (e.code === 'Escape') {
                 run = false;
+            }
+
+            if (e.code === 'Space') {
+                isActive = true;
             }
 
         });
