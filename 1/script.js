@@ -22,6 +22,9 @@
     let materialG;
     let materialB;
 
+    //
+    const BOX_LENGTH = 200;
+
     // three.js 用の変数
     let scene;
     let camera;
@@ -43,8 +46,8 @@
         near: 0.1,
         far: 10.0,
         x: 0.5,
-        y: 1.8,
-        z: 3.0,
+        y: 0.0,
+        z: 4.4,
         lookAt: new THREE.Vector3(0.0, 0.0, 0.0) // 注視点（この場合、原点方向を見つめる）
     };
     const RENDERER_PARAM = {
@@ -60,9 +63,9 @@
     const DIRECTIONAL_LIGHT_PARAM = {
         color: 0xffffff,
         intensity: 1.0,
-        x: 1.0,
-        y: 1.0,
-        z: 1.0
+        x: 0.0,
+        y: 0.0,
+        z: 10.0
     };
     const AMBIENT_LIGHT_PARAM = {
         color: 0xff0000,
@@ -85,7 +88,7 @@
         camera.position.set(CAMERA_PARAM.x, CAMERA_PARAM.y, CAMERA_PARAM.z);
         camera.lookAt(CAMERA_PARAM.lookAt);
 
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < BOX_LENGTH; i++) {
 
             // カラーのRGBを指定
             // MATERIAL_PARAMに代入
@@ -98,7 +101,7 @@
 
             geometry = new THREE.BoxGeometry(
                 getRandomIntInclusive(10, 20, false) / 100,
-                getRandomIntInclusive(10, 30, false) / 100,
+                getRandomIntInclusive(20, 30, false) / 100,
                 getRandomIntInclusive(10, 20, false) / 100,
             ); // 骨格（サイズ）
             material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
@@ -110,7 +113,10 @@
                 getRandomIntInclusive(-20, 20, false) / 10,
             );
             scene.add(box);
-            boxs.push(box);
+            boxs.push({
+                box: box,
+                rotationParam: getRandomIntInclusive(2, 4, false) / 100
+            });
 
         }
 
@@ -160,8 +166,12 @@
 
         controls.update();
 
+        for (let i = 0; i < BOX_LENGTH; i++) {
+            boxs[i].box.rotation.y += boxs[i].rotationParam;
+        }
+
         if (isActive) {
-            boxs[0].rotation.y += 0.05;
+            // boxs[0].rotation.y += 0.05;
         }
 
         renderer.render(scene, camera);
