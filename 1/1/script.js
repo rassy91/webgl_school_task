@@ -1,3 +1,6 @@
+/**
+ * ランダム配置、回転速度もランダム
+ */
 ;(() => {
 
     document.addEventListener('DOMContentLoaded', () => {

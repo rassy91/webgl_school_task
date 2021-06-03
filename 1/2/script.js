@@ -1,3 +1,6 @@
+/**
+ * カメラ移動を加えたもの（意図通りにならず）
+ */
 ;(() => {
 
     document.addEventListener('DOMContentLoaded', () => {
