@@ -85,8 +85,6 @@
         camera.position.set(CAMERA_PARAM.x, CAMERA_PARAM.y, CAMERA_PARAM.z);
         camera.lookAt(CAMERA_PARAM.lookAt);
 
-        geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1); // 骨格（サイズ）
-
         for (let i = 0; i < 100; i++) {
 
             // カラーのRGBを指定
@@ -98,13 +96,18 @@
 
             MATERIAL_PARAM.color = parseInt(`0x${materialR}${materialG}${materialB}`, 16);
 
+            geometry = new THREE.BoxGeometry(
+                getRandomIntInclusive(10, 20, false) / 100,
+                getRandomIntInclusive(10, 30, false) / 100,
+                getRandomIntInclusive(10, 20, false) / 100,
+            ); // 骨格（サイズ）
             material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
             box = new THREE.Mesh(geometry, material);
             box.position.set(
-                getRandomIntInclusive(-20, 20) / 10,
-                getRandomIntInclusive(-20, 20) / 10,
-                getRandomIntInclusive(-20, 20) / 10,
+                getRandomIntInclusive(-20, 20, false) / 10,
+                getRandomIntInclusive(-20, 20, false) / 10,
+                getRandomIntInclusive(-20, 20, false) / 10,
             );
             scene.add(box);
             boxs.push(box);
