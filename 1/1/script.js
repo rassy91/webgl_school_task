@@ -25,10 +25,6 @@
     // boxの数
     const BOX_LENGTH = 200;
 
-    // カメラ移動に関する変数
-    let cameraDir = 1;
-    let cameraPosMax = 2;
-
     // three.js 用の変数
     let scene;
     let camera;
@@ -178,17 +174,6 @@
         for (let i = 0; i < BOX_LENGTH; i++) {
             boxs[i].box.rotation.y += boxs[i].rotationParam;
         }
-
-        if (camera.position.x > cameraPosMax) {
-            cameraDir = -1;
-        } else if (camera.position.x < (cameraPosMax * -1)) {
-            cameraDir = 1;
-        }
-
-        camera.position.x += (getRandomIntInclusive(1, cameraPosMax) / 100 * cameraDir);
-        camera.position.y += (getRandomIntInclusive(1, cameraPosMax  *2) / 100 * cameraDir);
-        camera.position.z -= (getRandomIntInclusive(1, cameraPosMax) / 100 * cameraDir);
-        camera.updateProjectionMatrix();
 
         // スペースキー謳歌中の処理
         if (isActive) {
