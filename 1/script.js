@@ -17,12 +17,18 @@
     let run = true;
     let isActive = false;
 
+    // 色
+    let materialR;
+    let materialG;
+    let materialB;
+
     // three.js 用の変数
     let scene;
     let camera;
     let renderer;
     let geometry;
     let material;
+    let boxs = [];
     let box;
     let plane;
     let axesHelper;
@@ -46,8 +52,9 @@
         width: window.innerWidth,   // 描写領域
         height: window.innerHeight  // 描写領域
     };
+    const color = '3333ff';
     const MATERIAL_PARAM = {
-        color: 0x3333ff,        // マテリアル自体の色
+        color: parseInt(`0x${color}`, 16),        // マテリアル自体の色
         specular: 0x3300ff      // 反射光の色
     };
     const DIRECTIONAL_LIGHT_PARAM = {
@@ -79,11 +86,30 @@
         camera.lookAt(CAMERA_PARAM.lookAt);
 
         geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1); // 骨格（サイズ）
-        material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
-        box = new THREE.Mesh(geometry, material);
-        box.position.set(0.2, 2.0, -1.0);
-        scene.add(box);
+        for (let i = 0; i < 100; i++) {
+
+            // カラーのRGBを指定
+            // MATERIAL_PARAMに代入
+            // geometryを作成
+            materialR = getRandomIntInclusive(0, 3, true);
+            materialG = getRandomIntInclusive(0, 3, true);
+            materialB = getRandomIntInclusive(10, 15, true);
+
+            MATERIAL_PARAM.color = parseInt(`0x${materialR}${materialG}${materialB}`, 16);
+
+            material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
+
+            box = new THREE.Mesh(geometry, material);
+            box.position.set(
+                getRandomIntInclusive(-20, 20) / 10,
+                getRandomIntInclusive(-20, 20) / 10,
+                getRandomIntInclusive(-20, 20) / 10,
+            );
+            scene.add(box);
+            boxs.push(box);
+
+        }
 
         // geometry = new THREE.PlaneGeometry(5, 5);
         // material = new THREE.MeshPhongMaterial({
@@ -132,7 +158,7 @@
         controls.update();
 
         if (isActive) {
-            box.rotation.y += 0.05;
+            boxs[0].rotation.y += 0.05;
         }
 
         renderer.render(scene, camera);
@@ -143,19 +169,22 @@
      * 包括的に 2 つの値の間のランダムな整数を得る
      * @param {number} min：デフォルト引数を0とする
      * @param {number} max：デフォルト引数を15とする
+     * @param {boolean} forHex
      * @returns {number}
      */
-    function getRandomIntInclusiveForHex(min = 0, max = 15) {
+    function getRandomIntInclusive(min = 0, max = 15, forHex = false) {
 
-        // 引数は0-15の間の数値のみ受け取る
-        min =
-            min < 0 ? 0
-            : min > 15 ? 15
-            : min;
-        max =
-            max < 0 ? 0
-            : max > 15 ? 15
-            : max;
+        // HEX値の計算の場合、引数は0-15の間の数値のみを有効とする
+        if (forHex === true) {
+            min =
+                min < 0 ? 0
+                    : min > 15 ? 15
+                    : min;
+            max =
+                max < 0 ? 0
+                    : max > 15 ? 15
+                    : max;
+        }
 
         min = Math.ceil(min);
         max = Math.floor(max);
