@@ -140,6 +140,29 @@
     }
 
     /**
+     * 包括的に 2 つの値の間のランダムな整数を得る
+     * @param {number} min：デフォルト引数を0とする
+     * @param {number} max：デフォルト引数を15とする
+     * @returns {number}
+     */
+    function getRandomIntInclusiveForHex(min = 0, max = 15) {
+
+        // 引数は0-15の間の数値のみ受け取る
+        min =
+            min < 0 ? 0
+            : min > 15 ? 15
+            : min;
+        max =
+            max < 0 ? 0
+            : max > 15 ? 15
+            : max;
+
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+    }
+
+    /**
      * イベント登録
      */
     function setEvent() {
