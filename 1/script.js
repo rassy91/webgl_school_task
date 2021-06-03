@@ -55,9 +55,9 @@
         width: window.innerWidth,   // 描写領域
         height: window.innerHeight  // 描写領域
     };
-    const color = '3333ff';
+
     const MATERIAL_PARAM = {
-        color: parseInt(`0x${color}`, 16),        // マテリアル自体の色
+        color: null,        // マテリアル自体の色
         specular: 0x3300ff      // 反射光の色
     };
     const DIRECTIONAL_LIGHT_PARAM = {
@@ -91,19 +91,20 @@
         for (let i = 0; i < BOX_LENGTH; i++) {
 
             // カラーのRGBを指定
-            // MATERIAL_PARAMに代入
-            // geometryを作成
-            materialR = getRandomIntInclusive(0, 3, true);
-            materialG = getRandomIntInclusive(0, 3, true);
-            materialB = getRandomIntInclusive(10, 15, true);
+            materialR = getRandomIntInclusive(0, 10, true);
+            materialG = getRandomIntInclusive(0, 10, true);
+            materialB = getRandomIntInclusive(7, 15, true);
 
+            // MATERIAL_PARAMに代入
             MATERIAL_PARAM.color = parseInt(`0x${materialR}${materialG}${materialB}`, 16);
 
+            // geometryを作成
+            // 骨格（サイズ）
             geometry = new THREE.BoxGeometry(
                 getRandomIntInclusive(10, 20, false) / 100,
                 getRandomIntInclusive(20, 30, false) / 100,
                 getRandomIntInclusive(10, 20, false) / 100,
-            ); // 骨格（サイズ）
+            );
             material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
             box = new THREE.Mesh(geometry, material);
