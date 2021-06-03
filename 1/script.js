@@ -33,9 +33,9 @@
     const CAMERA_PARAM = {
         fovy: 60,
         aspect: window.innerWidth / window.innerHeight,
-        near: 0.1,
-        far: 15.0,
-        x: 0.2,
+        near: 1.0,
+        far: 100.0,
+        x: 0.5,
         y: 1.0,
         z: 1.0,
         lookAt: new THREE.Vector3(0.0, 0.0, 0.0) // 注視点（この場合、原点方向を見つめる）
@@ -77,7 +77,7 @@
         camera.position.set(CAMERA_PARAM.x, CAMERA_PARAM.y, CAMERA_PARAM.z);
         camera.lookAt(CAMERA_PARAM.lookAt);
 
-        geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5); // 骨格（サイズ）
+        geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2); // 骨格（サイズ）
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
         box = new THREE.Mesh(geometry, material);
@@ -100,7 +100,7 @@
         );
         scene.add(ambientLight);
 
-        axesHelper = new THREE.AxesHelper(5);
+        axesHelper = new THREE.AxesHelper(50);
         scene.add(axesHelper);
 
         controls = new THREE.OrbitControls(camera, renderer.domElement);
