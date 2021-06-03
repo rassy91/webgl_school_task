@@ -24,6 +24,7 @@
     let geometry;
     let material;
     let box;
+    let plane;
     let axesHelper;
     let controls;
     let directionalLight;
@@ -31,23 +32,23 @@
 
     // パラメーター
     const CAMERA_PARAM = {
-        fovy: 60,
+        fovy: 80,
         aspect: window.innerWidth / window.innerHeight,
-        near: 1.0,
-        far: 100.0,
+        near: 0.1,
+        far: 10.0,
         x: 0.5,
-        y: 1.0,
-        z: 1.0,
+        y: 1.8,
+        z: 3.0,
         lookAt: new THREE.Vector3(0.0, 0.0, 0.0) // 注視点（この場合、原点方向を見つめる）
     };
     const RENDERER_PARAM = {
-        clearColor: 0x333333,            // 背景を描写する色
+        clearColor: 0x333333,       // 背景を描写する色
         width: window.innerWidth,   // 描写領域
         height: window.innerHeight  // 描写領域
     };
     const MATERIAL_PARAM = {
-        color: 0xeeff00,        // マテリアル自体の色
-        specular: 0x00ff00      // 反射光の色
+        color: 0x3333ff,        // マテリアル自体の色
+        specular: 0x3300ff      // 反射光の色
     };
     const DIRECTIONAL_LIGHT_PARAM = {
         color: 0xffffff,
@@ -77,11 +78,21 @@
         camera.position.set(CAMERA_PARAM.x, CAMERA_PARAM.y, CAMERA_PARAM.z);
         camera.lookAt(CAMERA_PARAM.lookAt);
 
-        geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2); // 骨格（サイズ）
+        geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1); // 骨格（サイズ）
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
         box = new THREE.Mesh(geometry, material);
+        box.position.set(0.2, 2.0, -1.0);
         scene.add(box);
+
+        // geometry = new THREE.PlaneGeometry(5, 5);
+        // material = new THREE.MeshPhongMaterial({
+        //         color: 0xffffff,
+        //         specular: 0x009900
+        // });
+        // plane = new THREE.Mesh(geometry, material);
+        // plane.position.set(1.0, 1.0, 0.0);
+        // scene.add(plane);
 
         directionalLight = new THREE.DirectionalLight(
             DIRECTIONAL_LIGHT_PARAM.color,
@@ -100,7 +111,7 @@
         );
         scene.add(ambientLight);
 
-        axesHelper = new THREE.AxesHelper(50);
+        axesHelper = new THREE.AxesHelper(3);
         scene.add(axesHelper);
 
         controls = new THREE.OrbitControls(camera, renderer.domElement);
