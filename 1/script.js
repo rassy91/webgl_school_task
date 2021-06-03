@@ -14,7 +14,7 @@
     const wrapper = document.getElementById('webgl');
 
     // flags
-    let run = true;
+    let escape = false;
     let isActive = false;
 
     // 色
@@ -22,7 +22,7 @@
     let materialG;
     let materialB;
 
-    //
+    // boxの数
     const BOX_LENGTH = 200;
 
     // three.js 用の変数
@@ -158,18 +158,23 @@
      */
     function render() {
 
-        if (!run) {
+        // エスケープ押下で処理終了
+        if (escape) {
             return;
         }
 
+        // 再帰呼び出し
         requestAnimationFrame(render);
 
+        // コントロールの更新
         controls.update();
 
+        // boxの回転
         for (let i = 0; i < BOX_LENGTH; i++) {
             boxs[i].box.rotation.y += boxs[i].rotationParam;
         }
 
+        // スペースキー謳歌中の処理
         if (isActive) {
             // boxs[0].rotation.y += 0.05;
         }
@@ -212,7 +217,7 @@
         document.addEventListener('keydown', (e) => {
 
             if (e.code === 'Escape') {
-                run = false;
+                escape = true;
             }
 
             if (e.code === 'Space') {
