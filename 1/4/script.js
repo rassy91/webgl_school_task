@@ -27,6 +27,7 @@
     let material;
     let box;
     let controls;
+    let axesHelper;
 
     const CAMERA_PARAM = {
         fovy: 60,
@@ -77,6 +78,12 @@
         box = new THREE.Mesh(geometry, material);
         scene.add(box);
 
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        scene.add(controls);
+
+        axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
+
     }
 
     function render() {
@@ -86,6 +93,8 @@
         }
 
         requestAnimationFrame(render)
+
+        controls.update();
 
         renderer.render(scene, camera);
 
