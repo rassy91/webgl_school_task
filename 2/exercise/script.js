@@ -26,6 +26,7 @@
     let box;
     let axesHelper;
     let controls;
+    let directionalLight;
 
     // params
     const CAMERA_PARAM = {
@@ -47,6 +48,14 @@
 
     const MATERIAL_PARAM = {
         color: 0x00ffff
+    };
+
+    const DIRECTIONAL_LIGHT_PARAM = {
+        color: 0xffffff,
+        intensity: 1.0,
+        x: 1.5,
+        y: 2.0,
+        z: 3.0,
     };
 
     function init() {
@@ -77,11 +86,22 @@
         camera.lookAt(CAMERA_PARAM.lookAt);
 
         geometry = new THREE.BoxGeometry(1.0, 1.0, 1.0);
-        material = new THREE.MeshBasicMaterial(MATERIAL_PARAM);
+        material = new THREE.MeshLambertMaterial(MATERIAL_PARAM);
 
         box = new THREE.Mesh(geometry, material);
 
         scene.add(box);
+
+        directionalLight = new THREE.DirectionalLight(
+            DIRECTIONAL_LIGHT_PARAM.color,
+            DIRECTIONAL_LIGHT_PARAM.intensity
+        );
+        directionalLight.position.set(
+            DIRECTIONAL_LIGHT_PARAM.x,
+            DIRECTIONAL_LIGHT_PARAM.y,
+            DIRECTIONAL_LIGHT_PARAM.z,
+        );
+        scene.add(directionalLight);
 
         axesHelper = new THREE.AxesHelper(5);
         scene.add(axesHelper);
