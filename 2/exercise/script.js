@@ -4,6 +4,8 @@
 
         init();
 
+        setEvent();
+
         render();
 
     });
@@ -99,7 +101,31 @@
 
         controls.update();
 
+        if (isActive) {
+            box.rotation.y += 0.05;
+        }
+
         renderer.render(scene, camera);
+
+    }
+
+    function setEvent() {
+
+        window.addEventListener('keydown', (e) => {
+
+            if (e.code === 'Escape') {
+                escape = true;
+            }
+
+            if (e.code === 'Space') {
+                isActive = true;
+            }
+
+        });
+
+        window.addEventListener('keyup', (e) => {
+            isActive = false;
+        });
 
     }
 
