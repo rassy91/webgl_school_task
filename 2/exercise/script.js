@@ -24,6 +24,10 @@
     let geometry;
     let material;
     let box;
+    let sphere;
+    let cone;
+    let torus;
+    let plane;
     let directionalLight;
     let ambientLight;
 
@@ -56,7 +60,7 @@
         color: 0xffffff,
         intensity: 0.8,
         x: 2.0,
-        y: -2.0,
+        y: 0.0,
         z: 4.0,
     };
 
@@ -97,6 +101,32 @@
         box = new THREE.Mesh(geometry, material);
         scene.add(box);
 
+        // さまざまなジオメトリを追加
+        // 丸
+        geometry = new THREE.SphereGeometry(0.5, 16, 16);
+        sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(-2, 2, 0);
+        scene.add(sphere);
+
+        // コーン
+        geometry = new THREE.ConeGeometry(0.5, 1.0, 16);
+        cone = new THREE.Mesh(geometry, material);
+        cone.position.set(-1.5, 0.5, 1.5);
+        scene.add(cone);
+
+        // トーラス（ドーナツみたいなやつ）
+        geometry = new THREE.TorusGeometry(0.25, 0.1, 16, 32);
+        torus = new THREE.Mesh(geometry, material);
+        torus.position.set(2, 2, 1);
+        scene.add(torus);
+
+        // プレーン（板）
+        geometry = new THREE.PlaneGeometry(1, 1);
+        plane = new THREE.Mesh(geometry, material);
+        plane.rotation.x = -Math.PI / 4.0;
+        plane.position.set(2, 0, 0.5);
+        scene.add(plane);
+
         directionalLight = new THREE.DirectionalLight(
             DIRECTIONAL_LIGHT_PARAM.color,
             DIRECTIONAL_LIGHT_PARAM.intensity,
@@ -107,6 +137,7 @@
             DIRECTIONAL_LIGHT_PARAM.z,
         );
         scene.add(directionalLight);
+
 
         ambientLight = new THREE.AmbientLight(AMBIENT_LIGHT_PARAM);
         scene.add(ambientLight);
@@ -129,9 +160,17 @@
         controls.update();
 
         box.rotation.y += 0.01;
+        sphere.rotation.x += 0.01;
+        cone.rotation.y += 0.01;
+        torus.rotation.y += 0.01;
+        plane.rotation.y += 0.01;
 
         if (isActive) {
             box.rotation.y += 0.02;
+            sphere.rotation.y += 0.02;
+            cone.rotation.y += 0.02;
+            torus.rotation.y += 0.02;
+            plane.rotation.x += 0.02;
         }
 
         renderer.render(scene, camera);
