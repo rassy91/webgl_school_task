@@ -125,6 +125,14 @@
         scene.add(pointSphere);
 
 
+        pointMaterial = new THREE.PointsMaterial(POINT_MATERIAL_PARAM);
+
+        geometry = new THREE.SphereGeometry(0.5, 16, 16);
+        pointSphere =  new THREE.Points(geometry, pointMaterial);
+        pointSphere.position.set(0, 2, 0);
+        scene.add(pointSphere);
+
+
         // コーン
         geometry = new THREE.ConeGeometry(0.5, 1.0, 16);
         cone = new THREE.Line(geometry, material);
