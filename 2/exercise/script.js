@@ -41,9 +41,9 @@
         aspect: window.innerWidth / window.innerHeight,
         near: 0.1,
         far: 15,
-        x: 1.0,
+        x: -5.0,
         y: 2.0,
-        z: 5.0,
+        z: 2.0,
         lookAt: new THREE.Vector3(0.0, 0.0, 0.0)
     };
 
@@ -110,10 +110,12 @@
 
         // さまざまなジオメトリを追加
         // 丸
-        geometry = new THREE.SphereGeometry(0.5, 800, 800);
-        sphere = new THREE.Points(geometry, material);
-        sphere.position.set(-2, 2, 0);
-        scene.add(sphere);
+        for (let i = 0; i < 10; i++) {
+            geometry = new THREE.SphereGeometry(0.2, 400, 400);
+            sphere = new THREE.Points(geometry, material);
+            sphere.position.set(-2 + i, 0.75 + i / 4, 0);
+            scene.add(sphere);
+        }
 
         pointMaterial = new THREE.PointsMaterial(POINT_MATERIAL_PARAM);
 
