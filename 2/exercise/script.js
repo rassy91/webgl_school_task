@@ -23,8 +23,10 @@
     let renderer;
     let geometry;
     let material;
+    let pointMaterial;
     let box;
     let sphere;
+    let pointSphere;
     let cone;
     let torus;
     let plane;
@@ -54,6 +56,11 @@
     const MATERIAL_PARAM = {
         color: 0x0066ff,
         specular: 0xff0000
+    };
+
+    const POINT_MATERIAL_PARAM = {
+        color: 0x0066ff,
+        size: 0.1
     };
 
     const DIRECTIONAL_LIGHT_PARAM = {
@@ -103,10 +110,18 @@
 
         // さまざまなジオメトリを追加
         // 丸
-        geometry = new THREE.SphereGeometry(0.5, 16, 16);
-        sphere = new THREE.Mesh(geometry, material);
+        geometry = new THREE.SphereGeometry(0.5, 800, 800);
+        sphere = new THREE.Points(geometry, material);
         sphere.position.set(-2, 2, 0);
         scene.add(sphere);
+
+        pointMaterial = new THREE.PointsMaterial(POINT_MATERIAL_PARAM);
+
+        geometry = new THREE.SphereGeometry(0.5, 16, 16);
+        pointSphere =  new THREE.Points(geometry, pointMaterial);
+        pointSphere.position.set(0, 2, 0);
+        scene.add(pointSphere);
+
 
         // コーン
         geometry = new THREE.ConeGeometry(0.5, 1.0, 16);
@@ -115,8 +130,8 @@
         scene.add(cone);
 
         // トーラス（ドーナツみたいなやつ）
-        geometry = new THREE.TorusGeometry(0.25, 0.1, 16, 32);
-        torus = new THREE.Mesh(geometry, material);
+        geometry = new THREE.TorusGeometry(0.25, 0.1, 12, 48);
+        torus = new THREE.Line(geometry, material);
         torus.position.set(2, 2, 1);
         scene.add(torus);
 
@@ -160,7 +175,8 @@
         controls.update();
 
         box.rotation.y += 0.01;
-        sphere.rotation.x += 0.01;
+        sphere.rotation.y += 0.01;
+        pointSphere.rotation.y += 0.01;
         cone.rotation.y += 0.01;
         torus.rotation.y += 0.01;
         plane.rotation.y += 0.01;
@@ -168,6 +184,7 @@
         if (isActive) {
             box.rotation.y += 0.02;
             sphere.rotation.y += 0.02;
+            pointSphere.rotation.y += 0.02;
             cone.rotation.y += 0.02;
             torus.rotation.y += 0.02;
             plane.rotation.x += 0.02;
