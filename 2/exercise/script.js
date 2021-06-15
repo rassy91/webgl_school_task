@@ -25,6 +25,7 @@
     let material;
     let torus;
     let torusArray;
+    let dirs;
     let group;
     let directionalLight;
     let ambientLight;
@@ -49,12 +50,12 @@
     };
 
     const MATERIAL_PARAM = {
-        color: 0x00ff00,
-        specular: 0xffffff
+        color: 0xffffff,
+        specular: 0xff0000
     };
 
     const DIRECTIONAL_LIGHT_PARAM = {
-        color: 0x00cccc,
+        color: 0x00ff0ff,
         intensity: 0.8,
         x: 1.0,
         y: 0.0,
@@ -62,7 +63,7 @@
     };
 
     const AMBIENT_LIGHT_PARAM = {
-        color: 0xffff00,
+        color: 0xeeeeee,
         intensity: 0.2
     };
 
@@ -99,6 +100,7 @@
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
 
         torusArray = [];
+        dirs = [];
 
         for (let i = 0; i < 20; i++) {
             torus = new THREE.Mesh(geometry, material);
@@ -113,7 +115,10 @@
             torus.scale.setScalar(scale);
             group.add(torus);
 
-            torusArray.push(torusArray);
+            torusArray.push(torus);
+
+            const dir = Math.random() < 0.5 ? -1 : 1;
+            dirs.push(dir);
         }
         scene.add(group);
 
@@ -150,6 +155,14 @@
         requestAnimationFrame(render);
 
         controls.update();
+
+        group.rotation.y += 0.01;
+
+        if (isActive) {
+            torusArray.forEach((el, i) => {
+                el.rotation.x += dirs[i] * Math.random() / 20;
+            });
+        }
 
         renderer.render(scene, camera);
 
