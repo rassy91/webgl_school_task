@@ -36,9 +36,16 @@
     let axesHelper;
     let controls;
 
+    // カメラに関するパラメーター
+    const aspect = window.innerWidth / window.innerHeight;      // アスペクト比（高さに対する幅の値）
+    const scale = 5.0;                                         // 切り取る空間の広さ（スケール）
+    const horizontal = scale * aspect;
+    const vertical = scale;
     const CAMERA_PARAM = {
-        fovy: 60,
-        aspect: window.innerWidth / window.innerHeight,
+        left: -horizontal,                                      // 切り取る空間の左端
+        right: horizontal,                                      // 切り取る空間の右端
+        top: vertical,                                          // 切り取る空間の上端
+        bottom: -vertical,                                      // 切り取る空間の下端
         near: 0.1,
         far: 15,
         x: -5.0,
@@ -82,9 +89,19 @@
 
         scene = new THREE.Scene();
 
-        camera = new THREE.PerspectiveCamera(
-            CAMERA_PARAM.fovy,
-            CAMERA_PARAM.aspect,
+        renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(RENDERER_PARAM.clearColor);
+        renderer.setSize(
+            RENDERER_PARAM.width,
+            RENDERER_PARAM.height
+        );
+        wrapper.appendChild(renderer.domElement);
+
+        camera = new THREE.OrthographicCamera(
+            CAMERA_PARAM.left,
+            CAMERA_PARAM.right,
+            CAMERA_PARAM.top,
+            CAMERA_PARAM.bottom,
             CAMERA_PARAM.near,
             CAMERA_PARAM.far
         );
@@ -94,14 +111,6 @@
             CAMERA_PARAM.z,
         );
         camera.lookAt(CAMERA_PARAM.lookAt);
-
-        renderer = new THREE.WebGLRenderer();
-        renderer.setClearColor(RENDERER_PARAM.clearColor);
-        renderer.setSize(
-            RENDERER_PARAM.width,
-            RENDERER_PARAM.height
-        );
-        wrapper.appendChild(renderer.domElement);
 
         geometry = new THREE.BoxGeometry(1.0, 1.0, 1.0);
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
@@ -230,7 +239,15 @@
         window.addEventListener('resize', () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
 
-            camera.aspect = window.innerWidth / window.innerHeight;
+            const aspect = window.innerWidth / window.innerHeight;
+            const scale = 10.0;
+            const horizontal = scale * aspect;
+            const vertical = scale;
+
+            camera.left = -horizontal;
+            camera.right = horizontal;
+            camera.top = vertical;
+            camera.bottom = -vertical;
 
             camera.updateProjectionMatrix();
         });
