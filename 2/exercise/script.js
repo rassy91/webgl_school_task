@@ -2,11 +2,14 @@
 
     document.addEventListener('DOMContentLoaded', () => {
 
-        init();
+        // init();
 
         setEvent();
 
-        render();
+        const loader = new THREE.TextureLoader();
+        texture = loader.load('./sample.jpg', init);
+
+        // render();
 
     });
 
@@ -27,6 +30,7 @@
     let torus;
     let torusArray;
     let raycaster;
+    let texture;
     let dirs;
     let group;
     let directionalLight;
@@ -116,6 +120,8 @@
 
         geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 48);
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
+        material.map = texture;
+
         selectedMaterial = new THREE.MeshPhongMaterial(SELECTED_MATERIAL_PARAM);
 
         torusArray = [];
@@ -164,6 +170,8 @@
         scene.add(axesHelper);
 
         raycaster = new THREE.Raycaster();
+
+        render();
 
     }
 
