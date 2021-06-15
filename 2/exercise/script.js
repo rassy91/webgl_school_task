@@ -23,8 +23,10 @@
     let camera;
     let geometry;
     let material;
+    let selectedMaterial;
     let torus;
     let torusArray;
+    let raycaster;
     let dirs;
     let group;
     let directionalLight;
@@ -51,6 +53,11 @@
 
     const MATERIAL_PARAM = {
         color: 0xffffff,
+        specular: 0xff0000
+    };
+
+    const SELECTED_MATERIAL_PARAM = {
+        color: 0xffcccc,
         specular: 0xff0000
     };
 
@@ -98,11 +105,12 @@
 
         geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 48);
         material = new THREE.MeshPhongMaterial(MATERIAL_PARAM);
+        selectedMaterial = new THREE.MeshPhongMaterial(SELECTED_MATERIAL_PARAM);
 
         torusArray = [];
         dirs = [];
 
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 60; i++) {
             torus = new THREE.Mesh(geometry, material);
 
             torus.position.set(
@@ -144,6 +152,8 @@
         axesHelper = new THREE.AxesHelper(5);
         scene.add(axesHelper);
 
+        raycaster = new THREE.Raycaster();
+
     }
 
     function render() {
@@ -156,9 +166,9 @@
 
         controls.update();
 
-        group.rotation.y += 0.01;
-
         if (isActive) {
+            group.rotation.y += 0.01;
+
             torusArray.forEach((el, i) => {
                 el.rotation.x += dirs[i] * Math.random() / 20;
             });
@@ -190,6 +200,26 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
+        });
+
+        window.addEventListener('click', (e) => {
+            const x = e.clientX / window.innerWidth * 2.0 - 1.0;
+            const y = e.clientY / window.innerHeight * 2.0 - 1.0;
+
+            const v = new THREE.Vector2(x, -y);
+
+            raycaster.setFromCamera(v, camera);
+
+            const intersects = raycaster.intersectObjects(torusArray);
+
+            torusArray.forEach((mesh) => {
+                mesh.material = material;
+            });
+
+            if (intersects.length > 0) {
+                intersects[0].object.material = selectedMaterial;
+            }
+
         });
 
     };
