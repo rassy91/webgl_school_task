@@ -34,6 +34,12 @@
     let controls;
     let axesHelper;
 
+    const SCENE_PARAM = {
+        fogColor: 0xffffff,
+        fogNear: 2.0,
+        fogFar: 18.0,
+    };
+
     const CAMERA_PARAM = {
         fovy: 60,
         aspect: window.innerWidth / window.innerHeight,
@@ -46,7 +52,7 @@
     };
 
     const RENDERER_PARAM = {
-        clearColor: 0x333333,
+        clearColor: 0xffffff,
         width: window.innerWidth,
         height: window.innerHeight
     };
@@ -79,6 +85,11 @@
         wrapper = document.getElementById('webgl');
 
         scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(
+            SCENE_PARAM.fogColor,
+            SCENE_PARAM.fogNear,
+            SCENE_PARAM.fogFar,
+        );
 
         renderer = new THREE.WebGLRenderer();
         renderer.setClearColor(RENDERER_PARAM.clearColor);
