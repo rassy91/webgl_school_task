@@ -4,6 +4,7 @@
 
         init();
 
+        setEvent();
 
         render();
 
@@ -153,5 +154,31 @@
         renderer.render(scene, camera);
 
     }
+
+    function setEvent() {
+
+        window.addEventListener('keydown', (e) => {
+
+            if (e.code === 'Escape') {
+                escape = true;
+            }
+
+            if(e.code === 'Space') {
+                isActive = true;
+            }
+
+        });
+
+        window.addEventListener('keyup', (e) => {
+            isActive = false;
+        });
+
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+    };
 
 })();
