@@ -35,10 +35,10 @@
         fovy: 60,
         aspect: window.innerWidth / window.innerHeight,
         near: 0.1,
-        far: 30.0,
+        far: 100.0,
         x: 1.0,
-        y: 2.0,
-        z: 15.0,
+        y: 5.0,
+        z: 10.0,
         lookAt: new THREE.Vector3(0.0, 0.0, 0.0)
     };
 
@@ -49,14 +49,9 @@
     };
 
     const MATERIAL_PARAM = {
-        color: 0xffffff,
-        size: 0.25,
+        color: 0xff9933,
+        size: 0.1,
         sizeAttenuation: true
-    };
-
-    const SELECTED_MATERIAL_PARAM = {
-        color: 0xffcccc,
-        specular: 0xff0000
     };
 
     function init() {
@@ -86,17 +81,18 @@
         );
         camera.lookAt(CAMERA_PARAM.lookAt);
 
-        geometry = new THREE.BufferGeometry();
-        const COUNT = 10;
-        const WIDTH = 10.0;
-        const vertices = [];
-        for (let i = 0; i < COUNT; ++i) {
-            const x = (i / COUNT - 0.5) * WIDTH;
-            for (let j = 0; j < COUNT; ++j) {
-                const y = (j / COUNT - 0.5) * WIDTH;
+        materialPoint = new THREE.PointsMaterial(MATERIAL_PARAM);
 
-                vertices.push(x, y, 0.0);
-            }
+        geometry = new THREE.BufferGeometry();
+        const COUNT = 10000;
+        const SIZE = 20.0;
+        const vertices = [];
+
+        for (let i = 0; i < COUNT; ++i) {
+            const x = (Math.random() - 0.5) * 2.0 * SIZE;
+            const y = (Math.random() - 0.5) * 2.0 * SIZE;
+            const z = (Math.random() - 0.5) * 2.0 * SIZE;
+            vertices.push(x, y, z);
         }
 
         const stride = 3;
@@ -125,6 +121,9 @@
         requestAnimationFrame(render);
 
         controls.update();
+
+        points.rotation.x += 0.00025;
+        points.rotation.y += 0.00025;
 
         renderer.render(scene, camera);
 
