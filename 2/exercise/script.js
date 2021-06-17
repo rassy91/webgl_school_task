@@ -49,7 +49,7 @@
     };
 
     const MATERIAL_PARAM = {
-        color: 0xff9933,
+        color: 0x33ff99,
         size: 0.1,
         sizeAttenuation: true
     };
@@ -124,6 +124,9 @@
 
         points.rotation.x += 0.00025;
         points.rotation.y += 0.00025;
+
+        // scene.rotation.x += 0.0003;
+        // scene.rotation.y += 0.0007;
 
         renderer.render(scene, camera);
 
